@@ -5,11 +5,7 @@ import TodoInput from '../TodoInput/TodoInput'
 import styles from './TodoListTemplate.module.css'
 
 export default function TodoListTemplate() {
-  const [todoList,setTodoList] = useState([
-    {id:1, text:'강의보기', checked:false},
-    {id:2, text:'알고리즘 문제풀기', checked:true},
-    {id:3, text:'운동하기', checked:false},
-  ])
+  const [todoList,setTodoList] = useState([])
   const checkboxChange = (id)=>{
     setTodoList(
       todoList.map((todo)=>{
@@ -20,12 +16,21 @@ export default function TodoListTemplate() {
       })
     )
   }
+  const todoListAdd = (text)=>{
+    setTodoList([
+      ...todoList,{
+        id: todoList.length + 1,
+        text,
+        checked:false
+      }
+    ])
+  }
   return (
     <div className={styles.container}>
       <div className={styles.TodoListTemplate}>
       <TodoHeader></TodoHeader>
         <TodoList todoList={todoList} onChecked={checkboxChange}></TodoList>
-      <TodoInput></TodoInput>
+      <TodoInput todoListAdd={todoListAdd}></TodoInput>
       </div>
     </div>
   )
