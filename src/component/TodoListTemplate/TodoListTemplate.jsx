@@ -5,7 +5,7 @@ import TodoInput from '../TodoInput/TodoInput'
 import styles from './TodoListTemplate.module.css'
 
 export default function TodoListTemplate() {
-  const [todoList,setTodoList] = useState([])
+  const [todoList,setTodoList] = useState([]);
   const checkboxChange = (id)=>{
     setTodoList(
       todoList.map((todo)=>{
@@ -23,13 +23,19 @@ export default function TodoListTemplate() {
         text,
         checked:false
       }
-    ])
+    ]);
+    console.log(todoList);
+  }
+  const todoListDelete = (id)=>{
+    setTodoList(
+      todoList.filter((prev) => prev.id !== id)
+    )
   }
   return (
     <div className={styles.container}>
       <div className={styles.TodoListTemplate}>
       <TodoHeader></TodoHeader>
-        <TodoList todoList={todoList} onChecked={checkboxChange}></TodoList>
+        <TodoList todoList={todoList} onChecked={checkboxChange} onDelete={todoListDelete}></TodoList>
       <TodoInput todoListAdd={todoListAdd}></TodoInput>
       </div>
     </div>
