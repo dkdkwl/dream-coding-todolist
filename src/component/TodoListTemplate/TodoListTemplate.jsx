@@ -10,15 +10,21 @@ export default function TodoListTemplate() {
     {id:2, text:'알고리즘 문제풀기', checked:true},
     {id:3, text:'운동하기', checked:false},
   ])
+  const checkboxChange = (id)=>{
+    setTodoList(
+      todoList.map((todo)=>{
+        if(todo.id === id){
+          return {...todo, checked: !todo.checked}
+        }
+        return todo;
+      })
+    )
+  }
   return (
     <div className={styles.container}>
       <div className={styles.TodoListTemplate}>
       <TodoHeader></TodoHeader>
-      {
-       todoList.map(item => (
-        <TodoList key={`todoList.${item.id}`} text={item.text} checked={item.checked}></TodoList>
-       ))
-      }
+        <TodoList todoList={todoList} onChecked={checkboxChange}></TodoList>
       <TodoInput></TodoInput>
       </div>
     </div>
