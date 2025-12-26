@@ -10,7 +10,7 @@ export default function TodoListTemplate() {
     setTodoList(
       todoList.map((todo)=>{
         if(todo.id === id){
-          return {...todo, checked: !todo.checked}
+          return {...todo, isChecked: !todo.isChecked}
         }
         return todo;
       })
@@ -21,7 +21,8 @@ export default function TodoListTemplate() {
       ...todoList,{
         id: todoList.length + 1,
         text,
-        checked:false
+        isChecked:false,
+        isComplete:false
       }
     ]);
     console.log(todoList);
@@ -31,11 +32,22 @@ export default function TodoListTemplate() {
       todoList.filter((prev) => prev.id !== id)
     )
   }
+  const todoListComplete = (id)=>{
+    console.log(id);
+    setTodoList(
+      todoList.map((todo)=>{
+        if(todo.id === id){
+          return {...todo, isComplete: !todo.isComplete}
+        }
+        return todo;
+      })
+    )
+  }
   return (
     <div className={styles.container}>
       <div className={styles.TodoListTemplate}>
       <TodoHeader></TodoHeader>
-        <TodoList todoList={todoList} onChecked={checkboxChange} onDelete={todoListDelete}></TodoList>
+        <TodoList todoList={todoList} onChecked={checkboxChange} onDelete={todoListDelete} onComplete={todoListComplete}></TodoList>
       <TodoInput todoListAdd={todoListAdd}></TodoInput>
       </div>
     </div>

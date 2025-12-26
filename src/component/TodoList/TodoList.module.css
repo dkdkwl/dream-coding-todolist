@@ -28,6 +28,7 @@
     color: #ecf0f1;
     font-size: 1rem;
     cursor: pointer;
+    margin: 0 0 0 0;
 }
 
 .deleteButton {
@@ -41,4 +42,10 @@
     &:hover {
         opacity: 1;
     }
+}
+
+/* TodoList.module.css */
+.complete {
+  text-decoration: line-through;
+  opacity: 0.6;
 }
