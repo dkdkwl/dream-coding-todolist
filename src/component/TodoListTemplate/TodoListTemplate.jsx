@@ -46,8 +46,8 @@ const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
   // 렌더링할 때 필터링된 목록 생성
   const filteredTodos = tasks.filter((todo) => {
     if(filterState === 'all') return true;
-    if(filterState === 'active') return !todo.isChecked; // 체크 안 된 것들 (진행 중)
-    if(filterState === 'complete') return todo.isChecked; // 체크 된 것들 (완료)
+    if(filterState === 'active') return todo.isActive;
+    if(filterState === 'complete') return todo.isChecked;
     return true;
   });
 
