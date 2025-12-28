@@ -12,8 +12,8 @@ const FILTER_TEXT = {
 };
 
 export default function TodoListTemplate() {
+
 const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
-  
   const [filterState, setFilterState] = useState('all');
   function todoListAdd(text) {
     dispatch({
