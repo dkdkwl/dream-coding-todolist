@@ -49,6 +49,13 @@
   text-decoration: line-through;
   opacity: 0.6;
 }
+
+.active {
+  color: #F19747;
+  font-weight: bold;
+  text-decoration: line-through;
+}
+
 .emptyMessage{
     display: flex;
     align-items: center;

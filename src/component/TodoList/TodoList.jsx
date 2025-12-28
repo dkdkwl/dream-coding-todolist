@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './TodoList.module.css'
 
-export default function TodoList({todoList, onChecked, onDelete, onComplete, filterText}) {
+export default function TodoList({todoList, onChecked, onDelete, onActive, filterText}) {
   return (
     <ul className={styles.todoList}>
         {
@@ -10,7 +10,7 @@ export default function TodoList({todoList, onChecked, onDelete, onComplete, fil
                     return (
                         <li key={item.id} className={styles.todoItem}>
                             <input type="checkbox" id={`todoListitem${item.id}`} className={styles.checkbox} checked={item.isChecked} onChange={() => onChecked(item.id)}/>
-                            <p onClick={() => onComplete(item.id)} className={`${styles.label} ${item.isComplete ? styles.complete : ''}`}>{item.text}</p>
+                            <p onClick={() => onActive(item.id)} className={`${styles.label} ${item.isChecked ? styles.complete : ''} ${item.isActive ? styles.active : ''}`}>{item.text}</p>
                             <button type='button' className={styles.deleteButton} onClick={() => onDelete(item.id)}>🗑️</button>
                         </li>
                     )

@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState,useReducer } from 'react'
 import TodoHeader from '../TodoHeader/TodoHeader'
 import TodoList from '../TodoList/TodoList'
 import TodoInput from '../TodoInput/TodoInput'
 import styles from './TodoListTemplate.module.css'
+import tasksReducer, { initialTasks } from '../../reducers/Reducer';
 
 const FILTER_TEXT = {
   all: '전체',
@@ -11,52 +12,42 @@ const FILTER_TEXT = {
 };
 
 export default function TodoListTemplate() {
-  const [todoList,setTodoList] = useState([]);
+const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
+  
   const [filterState, setFilterState] = useState('all');
-  const checkboxChange = (id)=>{
-    setTodoList(
-      todoList.map((todo)=>{
-        if(todo.id === id){
-          return {...todo, isChecked: !todo.isChecked}
-        }
-        return todo;
-      })
-    )
+  function todoListAdd(text) {
+    dispatch({
+      type: 'added',
+      text: text,
+    });
   }
-  const todoListAdd = (text)=>{
-    setTodoList([
-      ...todoList,{
-        id: todoList.length + 1,
-        text,
-        isChecked:false,
-        isComplete:false
-      }
-    ]);
+  function todoListDelete(id){
+    dispatch({
+      type: 'deleted',
+      id: id
+    });
   }
-  const todoListDelete = (id)=>{
-    setTodoList(
-      todoList.filter((prev) => prev.id !== id)
-    )
+  function todoListActive(id){
+    dispatch({
+      type: 'active',
+      id: id
+    });
   }
-  const todoListComplete = (id)=>{
-    setTodoList(
-      todoList.map((todo)=>{
-        if(todo.id === id){
-          return {...todo, isComplete: !todo.isComplete}
-        }
-        return todo;
-      })
-    )
+  function todoListComplete(id){
+    dispatch({
+      type: 'changed',
+      id: id
+    });
   }
   const todoListFilter = (filterType) => {
     setFilterState(filterType);  // 필터 상태만 변경!
   }
 
   // 렌더링할 때 필터링된 목록 생성
-  const filteredTodos = todoList.filter((todo) => {
+  const filteredTodos = tasks.filter((todo) => {
     if(filterState === 'all') return true;
-    if(filterState === 'active') return todo.isComplete;
-    if(filterState === 'complete') return todo.isChecked;
+    if(filterState === 'active') return !todo.isChecked; // 체크 안 된 것들 (진행 중)
+    if(filterState === 'complete') return todo.isChecked; // 체크 된 것들 (완료)
     return true;
   });
 
@@ -64,7 +55,7 @@ export default function TodoListTemplate() {
     <div className={styles.container}>
       <div className={styles.TodoListTemplate}>
       <TodoHeader onFilter={todoListFilter} filterState={filterState}></TodoHeader>
-        <TodoList todoList={filteredTodos} onChecked={checkboxChange} onDelete={todoListDelete} onComplete={todoListComplete} filterText={FILTER_TEXT[filterState]}></TodoList>
+        <TodoList todoList={filteredTodos} onChecked={todoListComplete} onDelete={todoListDelete} onActive={todoListActive} filterText={FILTER_TEXT[filterState]}></TodoList>
       <TodoInput todoListAdd={todoListAdd}></TodoInput>
       </div>
     </div>
